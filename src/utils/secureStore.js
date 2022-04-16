@@ -11,7 +11,7 @@ export const setItemToStore = async (key, value) => {
   }
 };
 
-export const getItemToStore = async (key) => {
+export const getItemFromStore = async (key) => {
   try {
     const fullKey = BASE_KEY + key;
     result = await SecureStore.getItemAsync(fullKey);
