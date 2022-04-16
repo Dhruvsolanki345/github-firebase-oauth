@@ -3,12 +3,14 @@ import {
   signInWithCredential,
   signOut,
 } from "firebase/auth";
+
 import { getGithubToken } from "./github";
 import { removeItemFromStore, setItemToStore } from "./secureStore";
+import { firebaseAuth } from "./firebase";
 
-export const signIn = async (token) => {
+export const signIn = async (githubToken) => {
   try {
-    if (!token) {
+    if (typeof githubToken !== "string") {
       const githubToken = await getGithubToken();
       if (githubToken) {
         await setItemToStore("github-token", githubToken);
@@ -17,7 +19,9 @@ export const signIn = async (token) => {
         return;
       }
     }
-    const credential = GithubAuthProvider.credential(token);
+
+    const credential = GithubAuthProvider.credential(firebaseAuth, githubToken);
+    // console.log({credential, githubToken})
     return signInWithCredential(credential);
   } catch (err) {
     console.log("Error when signing in -> ", err);
@@ -27,7 +31,8 @@ export const signIn = async (token) => {
 export const signOutAsync = async () => {
   try {
     await removeItemFromStore(GithubStorageKey);
-    await signOut();
+
+    await signOut(firebaseAuth);
   } catch (err) {
     console.log("Error when signing out -> ", err);
   }

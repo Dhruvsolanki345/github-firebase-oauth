@@ -8,7 +8,7 @@ import Login from "./Login";
 import Profile from "./Profile";
 
 import { userState } from "../store/user";
-import { initializeFirebase } from "../utils/firebase";
+import { firebaseAuth } from "../utils/firebase";
 import { getItemFromStore } from "../utils/secureStore";
 import { signIn } from "../utils/auth";
 
@@ -20,10 +20,7 @@ export default function Home() {
   const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
-    initializeFirebase();
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (auth) => {
+    onAuthStateChanged(firebaseAuth, async (auth) => {
       console.log({ auth });
       // setUser()
 

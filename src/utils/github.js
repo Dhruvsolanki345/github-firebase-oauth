@@ -33,11 +33,14 @@ const createTokenWithCode = async (code) => {
     }
   );
 
+  console.log({data: res.data})
+
   return res.data;
 };
 
 export const getGithubToken = async () => {
   try {
+    console.log("outside")
     const REDIRECT_URL = AuthSession.getRedirectUrl();
 
     const { type, params } = await AuthSession.startAsync({
@@ -75,6 +78,7 @@ export const getGithubToken = async () => {
 
     return access_token;
   } catch (err) {
+    console.log({err})
     throw new Error(`Github Auth: ${err.message}`);
   }
 };
