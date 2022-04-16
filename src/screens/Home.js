@@ -10,6 +10,7 @@ import Profile from "./Profile";
 import { userState } from "../store/user";
 import { initializeFirebase } from "../utils/firebase";
 import { getItemFromStore } from "../utils/secureStore";
+import { signIn } from "../utils/auth";
 
 LogBox.ignoreLogs([
   "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
@@ -26,11 +27,13 @@ export default function Home() {
       console.log({ auth });
       // setUser()
 
-      if (!auth) return;
+      if (auth) return;
 
       const githubToken = await getItemFromStore("github-token");
 
-      if (githubToken) console.log({ githubToken });
+      if (!githubToken) return;
+
+      signIn(githubToken);
     });
   }, []);
 
