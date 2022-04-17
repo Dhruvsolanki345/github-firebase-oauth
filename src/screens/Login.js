@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "#05267A",
+    color: "#436aac",
     textAlign: "center",
     lineHeight: 32,
     marginBottom: 40,

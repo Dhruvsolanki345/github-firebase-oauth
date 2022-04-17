@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LogBox, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRecoilState } from "recoil";
 import { onAuthStateChanged } from "firebase/auth";
 import * as WebBrowser from "expo-web-browser";
@@ -8,6 +7,7 @@ import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 
 import Login from "./Login";
 import Profile from "./Profile";
+import Loader from "../components/Loader";
 
 import { signInCallState, userState } from "../store/user";
 import { firebaseAuth } from "../utils/firebase";
@@ -26,6 +26,8 @@ export default function Home() {
   const [user, setUser] = useRecoilState(userState);
   const [isSignInCall, setIsSignInCall] = useRecoilState(signInCallState);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: githubConfig.id,
@@ -40,9 +42,10 @@ export default function Home() {
       const token = await getGithubToken(response);
       setIsSignInCall(false);
 
-      if(!token) return;
+      if (!token) return;
       setItemToStore("github-token", token);
       signIn(token);
+      setIsLoading(true);
     };
 
     if (!response) return;
@@ -72,7 +75,7 @@ export default function Home() {
     });
   }, []);
 
-  if (!request) <ActivityIndicator size="large" />;
+  if (isLoading) return <Loader />;
 
-  return <SafeAreaView>{user ? <Profile /> : <Login />}</SafeAreaView>;
+  return user ? <Profile /> : <Login />;
 }
