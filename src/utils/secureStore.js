@@ -26,6 +26,6 @@ export const removeItemFromStore = async (key) => {
     const fullKey = BASE_KEY + key;
     result = await SecureStore.deleteItemAsync(fullKey);
   } catch (err) {
-    console.log("Error when reomving value from expo secure store -> ", err);
+    console.log("Error when removing value from expo secure store -> ", err);
   }
 };
