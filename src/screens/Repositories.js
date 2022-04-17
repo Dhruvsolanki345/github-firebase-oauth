@@ -55,14 +55,22 @@ export default function Repositories() {
     </View>
   );
 
+  const EmptyCard = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyTxt}>No Repositories found</Text>
+    </View>
+  );
+
   if (isLoading) return <Loader backgroundColor="#fff" />;
 
   return (
     <View style={styles.container}>
       <FlatList
+        contentContainerStyle={{ flexGrow: 1 }}
         data={repos}
         keyExtractor={(item) => item.node_id}
         renderItem={RenderItem}
+        ListEmptyComponent={EmptyCard}
       />
     </View>
   );
@@ -105,5 +113,19 @@ const styles = StyleSheet.create({
   },
   date: {
     color: "#000",
+  },
+  emptyContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyTxt: {
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    backgroundColor: "#436aac",
+    borderRadius: 10,
+    color: "#fff",
+    fontSize: 18,
   },
 });
