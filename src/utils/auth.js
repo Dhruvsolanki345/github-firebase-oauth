@@ -11,9 +11,11 @@ export const signIn = async (githubToken) => {
   try {
     if (!githubToken) return;
 
-    const credential = GithubAuthProvider.credential(firebaseAuth, githubToken);
-    // console.log({credential, githubToken})
-    return signInWithCredential(credential);
+    const credential = GithubAuthProvider.credential(githubToken);
+    const res = await signInWithCredential(firebaseAuth, credential);
+    // console.log({res})
+
+    return res;
   } catch (err) {
     console.log("Error when signing in -> ", err);
   }

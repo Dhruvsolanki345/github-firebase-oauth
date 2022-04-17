@@ -38,9 +38,11 @@ export default function Home() {
   useEffect(() => {
     const runAsync = async () => {
       const token = await getGithubToken(response);
+      setIsSignInCall(false);
+
+      if(!token) return;
       setItemToStore("github-token", token);
       signIn(token);
-      setIsSignInCall(false);
     };
 
     if (!response) return;
