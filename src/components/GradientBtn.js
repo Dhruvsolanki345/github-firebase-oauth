@@ -6,18 +6,19 @@ export default function GradientBtn(props) {
   const {
     onPress,
     title,
+    Icon,
     gradientStyle,
     textStyle,
-    containertStyle,
+    containerStyle,
     start = { x: 0, y: 0 },
-    end = { x: 1, y: 1 },
-    colors = ["#19C190", "#F5B700"],
+    end = { x: 1, y: 0 },
+    colors = ["#8929ad", "#436aac", "#43b7b8"],
     ...textProps
   } = props;
 
   return (
     <TouchableOpacity
-      style={[styles.container, containertStyle]}
+      style={[styles.container, containerStyle]}
       onPress={onPress}
     >
       <LinearGradient
@@ -29,6 +30,7 @@ export default function GradientBtn(props) {
         <Text style={[styles.text, textStyle]} {...textProps}>
           {title}
         </Text>
+        {Icon}
       </LinearGradient>
     </TouchableOpacity>
   );
@@ -36,16 +38,19 @@ export default function GradientBtn(props) {
 
 const styles = StyleSheet.create({
   gradient: {
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    height: 48,
+    height: 58,
     borderRadius: 24,
     paddingHorizontal: 38,
     paddingVertical: 8,
+    elevation: 6,
+    marginVertical: 8
   },
   text: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });
