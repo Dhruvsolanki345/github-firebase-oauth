@@ -38,8 +38,6 @@ const createTokenWithCode = async (code) => {
     }
   );
 
-  console.log({ data: res.data });
-
   return res.data;
 };
 

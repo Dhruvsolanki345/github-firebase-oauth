@@ -86,7 +86,9 @@ export default function Home() {
   if (!user) return <Login />;
 
   return (
-    <Tab.Navigator initialRouteName="Profile">
+    <Tab.Navigator
+    // initialRouteName="Profile"
+    >
       <Tab.Screen
         name="Repositories"
         component={Repositories}
