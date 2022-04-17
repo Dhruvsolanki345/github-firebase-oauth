@@ -1,17 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 
-import GradientBtn from '../components/GradientBtn'
+import GradientBtn from "../components/GradientBtn";
 
-import {signIn} from "../utils/auth"
+import { useSetRecoilState } from "recoil";
+import { signInCallState } from "../store/user";
 
 export default function Login() {
+  const setIsSignInCall = useSetRecoilState(signInCallState);
+
+  const handleSignIn = () => {
+    setIsSignInCall(true);
+  };
+
   return (
     <View>
       <Text>Login</Text>
-      <GradientBtn onPress={signIn} title="Login with github" />
+      <GradientBtn onPress={handleSignIn} title="Login with github" />
     </View>
-  )
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

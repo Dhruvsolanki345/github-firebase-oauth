@@ -4,21 +4,12 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { getGithubToken } from "./github";
-import { removeItemFromStore, setItemToStore } from "./secureStore";
+import { removeItemFromStore } from "./secureStore";
 import { firebaseAuth } from "./firebase";
 
 export const signIn = async (githubToken) => {
   try {
-    if (typeof githubToken !== "string") {
-      const githubToken = await getGithubToken();
-      if (githubToken) {
-        await setItemToStore("github-token", githubToken);
-        return signIn(githubToken);
-      } else {
-        return;
-      }
-    }
+    if (!githubToken) return;
 
     const credential = GithubAuthProvider.credential(firebaseAuth, githubToken);
     // console.log({credential, githubToken})

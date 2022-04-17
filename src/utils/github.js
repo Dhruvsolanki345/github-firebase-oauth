@@ -1,9 +1,8 @@
 import axios from "axios";
-import AuthSession from "expo-auth-session";
 
 import githubConfig from "../../github.config";
 
-const githubFields = [
+export const githubFields = [
   "user",
   "public_repo",
   "repo",
@@ -14,6 +13,12 @@ const githubFields = [
   "read:public_key",
   "read:gpg_key",
 ];
+
+export const githubDiscovery = {
+  authorizationEndpoint: "https://github.com/login/oauth/authorize",
+  tokenEndpoint: "https://github.com/login/oauth/access_token",
+  revocationEndpoint: `https://github.com/settings/connections/applications/${githubConfig.id}`,
+};
 
 const createTokenWithCode = async (code) => {
   const url =
@@ -33,24 +38,13 @@ const createTokenWithCode = async (code) => {
     }
   );
 
-  console.log({data: res.data})
+  console.log({ data: res.data });
 
   return res.data;
 };
 
-export const getGithubToken = async () => {
+export const getGithubToken = async ({ type, params }) => {
   try {
-    console.log("outside")
-    const REDIRECT_URL = AuthSession.getRedirectUrl();
-
-    const { type, params } = await AuthSession.startAsync({
-      authUrl:
-        `https://github.com/login/oauth/authorize` +
-        `?client_id=${githubConfig.id}` +
-        `&redirect_uri=${encodeURIComponent(REDIRECT_URL)}` +
-        `&scope=${encodeURIComponent(githubFields.join(" "))}`,
-    });
-
     console.log("getGithubTokenAsync: A: ", { type, params });
     if (type !== "success") {
       return null;
@@ -78,7 +72,7 @@ export const getGithubToken = async () => {
 
     return access_token;
   } catch (err) {
-    console.log({err})
+    console.log({ err });
     throw new Error(`Github Auth: ${err.message}`);
   }
 };
