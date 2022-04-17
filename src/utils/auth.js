@@ -21,7 +21,7 @@ export const signIn = async (githubToken) => {
 
 export const signOutAsync = async () => {
   try {
-    await removeItemFromStore(GithubStorageKey);
+    await removeItemFromStore("github-token");
 
     await signOut(firebaseAuth);
   } catch (err) {

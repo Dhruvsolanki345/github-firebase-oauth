@@ -11,7 +11,7 @@ import Profile from "./Profile";
 
 import { signInCallState, userState } from "../store/user";
 import { firebaseAuth } from "../utils/firebase";
-import { getItemFromStore } from "../utils/secureStore";
+import { getItemFromStore, setItemToStore } from "../utils/secureStore";
 import { signIn } from "../utils/auth";
 import githubConfig from "../../github.config";
 import { getGithubToken, githubDiscovery, githubFields } from "../utils/github";
@@ -38,6 +38,7 @@ export default function Home() {
   useEffect(() => {
     const runAsync = async () => {
       const token = await getGithubToken(response);
+      setItemToStore("github-token", token);
       signIn(token);
       setIsSignInCall(false);
     };

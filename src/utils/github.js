@@ -45,13 +45,10 @@ const createTokenWithCode = async (code) => {
 
 export const getGithubToken = async ({ type, params }) => {
   try {
-    console.log("getGithubTokenAsync: A: ", { type, params });
-    if (type !== "success") {
-      return null;
-    }
+    if (type !== "success") return;
 
     if (params.error) {
-      const { error, error_description, error_uri } = params;
+      const { error, error_description } = params;
       if (error === "redirect_uri_mismatch") {
         console.warn(
           `Please set the "Authorization callback URL" in your Github application settings to ${REDIRECT_URL}`
@@ -60,19 +57,10 @@ export const getGithubToken = async ({ type, params }) => {
       throw new Error(`Github Auth: ${error} ${error_description}`);
     }
 
-    const { token_type, scope, access_token } = await createTokenWithCode(
-      params.code
-    );
-
-    console.log("getGithubTokenAsync: B: ", {
-      token_type,
-      scope,
-      access_token,
-    });
+    const { access_token } = await createTokenWithCode(params.code);
 
     return access_token;
   } catch (err) {
-    console.log({ err });
     throw new Error(`Github Auth: ${err.message}`);
   }
 };
