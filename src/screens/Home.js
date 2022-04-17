@@ -57,11 +57,12 @@ export default function Home() {
   }, [isSignInCall]);
 
   useEffect(() => {
-    onAuthStateChanged(firebaseAuth, async (auth) => {
-      console.log({ auth });
-      // setUser()
+    onAuthStateChanged(firebaseAuth, async (userData) => {
+      const userCopy = JSON.parse(JSON.stringify(userData));
+      setUser(userCopy);
+      setIsLoading(false);
 
-      if (auth) return;
+      if (userData) return;
 
       const githubToken = await getItemFromStore("github-token");
 
