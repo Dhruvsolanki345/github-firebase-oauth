@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 import loaderJson from "../../assets/lottie/loading.json";
 
-export default function LoaderPost(props) {
+export default function Loader(props) {
   const { backgroundColor = "#43b7b8" } = props;
 
   return (
